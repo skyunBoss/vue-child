@@ -6,7 +6,7 @@
 				<i class="icon"></i>
 				<div>
 					<span class="title fl">{{list.name}}</span>
-					<span class="fr">{{list.time}}min</span>
+					<span class="fr">{{list.time}}时间币</span>
 				</div>
 			</li>
 		</ul>
@@ -40,11 +40,13 @@
 				this.activeIndex = index
 			},
 			submit(){
-				Toast({
-					message: '请选择',
-					position: 'middle',
-					className: 'toast'
-				})
+				if(this.activeIndex < 0){
+					Toast({
+						message: '请选择时间',
+						position: 'middle',
+						className: 'toast'
+					})
+				}
 			}
 		}
 	}
@@ -57,12 +59,11 @@
 	ul{
 		width: 670px;
 		margin: 30px auto;
-		padding: 0 15px;
 		border-radius: 5px;
 		background-color: #fff;
 		box-shadow: 8px 10px 20px rgba(63,127,233,0.1);		
 		li{  
-			padding: 28px 15px 0 15px;	
+			padding: 28px 30px 0 30px;	
 			.icon{
 				width: 42px;
 				height: 42px;

@@ -1,39 +1,32 @@
 <template>
-	<div>
-		<header-bar title="修改密码" :showback="true" @back="back"></header-bar>	
+	<div class="login">
+		<header-bar title="成长盾" :showback="false"></header-bar>
 		<div class="content">
 			<div>
-				<i class="icon-oldpass"></i>
-				<input type="text" placeholder="请输入旧密码">
+				<i class="icon-username"></i>
+				<input type="text" placeholder="请输入用户名">
 			</div>
 			<div>
 				<i class="icon-newpass"></i>
-				<input type="text" placeholder="请输入新密码">
+				<input type="text" placeholder="请输入密码">
 			</div>
-			<button type="button">完成</button>
-		</div>
+			<button type="button">登录</button>
+		</div>		
 	</div>
-</template>
+</template>		
 
 <script>
 	import HeaderBar from '@/components/header-bar/header-bar'
 	export default {
 		components: {
 			HeaderBar
-		},
-		methods: {
-			back () {
-		      this.$router.push({
-		        path: '/userValidation'
-		      })
-		    }
 		}
-	}
+	}	
 </script>	
 
 <style lang="scss" scoped>
 	.mint-header{
-		background: #76a9fd;
+		background-color: #76a9fd;
 	}
 	.content{
 		width: 500px;
@@ -46,13 +39,13 @@
 			overflow: hidden;
 			position: relative;
 			margin: 0 0 40px 0;
-			.icon-oldpass{
+			.icon-username{
 				position: absolute;
 				left: 25px;
 				display: block;
 				width: 29px;
 				height: 28px;
-				background: url(../../assets/images/icon-oldpass.png) no-repeat;
+				background: url(../../assets/images/icon-username.png) no-repeat;
 				background-size: 100% 100%;
 				top: 50%;
 				margin-top: -14.5px;
@@ -91,5 +84,5 @@
 			color: #fff;
 			margin: 60px 0 0 0;
 		}
-	}
-</style>		
+	}		
+</style>
