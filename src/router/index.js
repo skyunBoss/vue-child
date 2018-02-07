@@ -5,11 +5,13 @@ Vue.use(Router)
 
 // 路由懒加载
 const Home = () => import('@/pages/home/home')
+const Login = () => import('@/pages/login/login')
 const TimeShop = () => import('@/pages/home/timeshop')
 const Setting = () => import('@/pages/setting/setting')
 const Mine = () => import('@/pages/mine/mine')
 const UserValidation = () => import('@/pages/mine/userValidation')
 const SetPassword = () => import('@/pages/mine/setpassword')
+const News = () => import('@/pages/mine/news')
 
 export default new Router({
   routes: [
@@ -23,6 +25,11 @@ export default new Router({
     {
       path: '/home',
       component: Home
+    },
+    // 登录
+    {
+      path: '/login',
+      component: Login
     },
     { // 时间商城
   	  path: '/timeshop',
@@ -47,6 +54,11 @@ export default new Router({
     {
       path: '/setpassword',
       component: SetPassword
+    },
+    // 消息
+    {
+      path: '/news',
+      component: News
     }
   ]
 })
