@@ -4,6 +4,7 @@
 		<div slot="left">
 			<mt-button icon="back" @click="back" v-show="showback"></mt-button>
 		</div>
+		<div slot="right" v-show="showButton" @click="submit">提交</div>
 	</mt-header>
 </template>
 
@@ -22,12 +23,22 @@
 			showback: {
 				type: Boolean,
 				default: false
+			},
+			showButton: {
+				type: Boolean,
+				default: false
 			}
 		},
 		methods: {
 			back(){
 				this.$emit('back')
+			},
+			submit(){
+				this.$emit('submit')				
 			}
+		},
+		watch: {
+
 		},
 		mounted(){
 			
@@ -36,5 +47,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+	.unchecked{
+		opacity: 0.5;
+	}
 </style>

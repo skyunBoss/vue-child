@@ -1,12 +1,11 @@
 <template>
 	<div class="home">
-		<header-bar title="游戏防沉迷系统" :showback="false"></header-bar>	
+		<header-bar title="成长盾" :showback="false"></header-bar>	
 		<div class="content">
 			<img src="../../assets/images/time.png" alt="">
-			<p class="time">19:00 — 21:00</p>
-			<p>时间银行余额：2000币</p>
+			<p>时间银行余额：40min</p>
 			<router-link to="/timeshop" tag="button">
-				去兑换
+				时间商城
 			</router-link>
 		</div>
 		<tab-bar></tab-bar>	
@@ -27,7 +26,7 @@
 <style lang="scss" scoped>
 	.home{
 		height: 100%;
-		background-color: #76a9fd;
+		background: linear-gradient(to bottom, #43D7ff , #3486fb);
 		.content{
 			width: 100%;
 			padding: 100px 0 20px 0;
@@ -56,7 +55,7 @@
 				border: none;
 				margin: 40px 0 0 0;
 				color: #3485fb;
-				font-size: 30px;
+				font-size: 26px;
 				box-shadow: 0 0 10px 10px rgba(41,124,254,0.5);  
 			}
 		}
