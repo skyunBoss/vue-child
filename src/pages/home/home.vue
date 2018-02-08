@@ -19,6 +19,9 @@
 		components: {
 			TabBar,
 			HeaderBar
+		},
+		mounted(){
+			console.log(this.$store.state.login)
 		}
 	}
 </script>
