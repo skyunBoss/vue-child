@@ -110,3 +110,23 @@ input::-webkit-input-placeholder{
 .mint-loadmore-content{
 	height: 100%;
 }
+.mint-msgbox-header{
+	padding: 30px 0 0;
+	.mint-msgbox-title{
+		font-size: 34px;		
+	}
+}
+.mint-msgbox-content{
+	.mint-msgbox-message{
+		font-size: 30px;				
+	}	
+}
+.mint-msgbox-btns{
+	height: 80px;
+	.mint-msgbox-btn{
+		font-size: 30px;
+	}
+	.mint-msgbox-confirm{
+		color: #76a9fd;
+	}
+}

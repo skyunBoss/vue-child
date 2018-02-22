@@ -14,23 +14,22 @@ const Mine = () => import('@/pages/mine/mine')
 const UserValidation = () => import('@/pages/mine/userValidation')
 const SetPassword = () => import('@/pages/mine/setpassword')
 const News = () => import('@/pages/mine/news')
+const Task = () => import('@/pages/mine/changeTask')
+const Time = () => import('@/pages/mine/changeTime')
 
 /**auth false 不需要登录可以访问 auth true 必须要登录才可以访问  默认为true**/
 const router = new Router({
   routes: [
-    // 根路径
-    {
+    { // 根路径
       path: '/',
       redirect: '/home',
       component: Home
     },  
-    // 首页
-    {
+    { // 首页
       path: '/home',
       component: Home
     },
-    // 登录
-    {
+    { // 登录
       path: '/login',
       component: Login
     },
@@ -42,30 +41,33 @@ const router = new Router({
       path: '/changePeriod',
       component: ChangePeriod
     },
-    // 设置页面
-    {
+    { // 设置页面
       path: '/setting',
       component: Setting
     },
-    // 个人中心
-    {
+    { // 个人中心
       path: '/mine',
       component: Mine
     },
-    // 个人资料设置
-    {
+    { // 个人资料设置
       path: '/userValidation',
       component: UserValidation
     },
-    // 修改密码
-    {
+    { // 修改密码
       path: '/setpassword',
       component: SetPassword
     },
-    // 消息
-    {
+    { // 消息
       path: '/news',
-      component: News
+      redirect: '/news/task',
+      component: News,
+      children: [{   //任务兑换
+        path: 'task',  
+        component: Task
+      }, {   //时间段兑换
+        path: 'time',  
+        component: Time
+      }]
     }
   ]
 })

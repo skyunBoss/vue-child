@@ -4,8 +4,8 @@
 		<div class="content">
 			<img src="../../assets/images/animation.png" alt="">
 			<div class="ing">
-				<p class="time" v-show="list.length>0">{{remainTime}}后进入休闲时间段</p>
-				<p class="time" v-show="list.length==0">今日无更多休闲时间段</p>
+				<p class="time" v-show="list.length>0 && !isNaN(remainTime)">{{remainTime}}后进入休闲时间段</p>
+				<p class="time" v-show="list.length==0 || isNaN(remainTime)">今日无更多休闲时间段</p>
 				<div class="border"></div>
 			</div>
 			<p class="time">今日休闲时间段</p>
@@ -19,7 +19,7 @@
 							<span class="fl slot">{{val.start_time}} — {{val.end_time}}</span>
 							<span class="fr" v-show="val.minute<60">共{{val.minute}}分钟</span>
 							<span class="fr" v-show="val.minute>=60">共{{val.hour}}小时</span>
-						</li>
+ 						</li>
 					</ul>
 				</mt-loadmore>
 				<p class="shadow bottom"></p>
@@ -84,8 +84,8 @@
 								_this.list.push({
 									start_time: item.start_time.substr(0,5),
 									end_time: item.end_time.substr(0,5),
-									minute: parseInt(new Date(date.getFullYear()+'-'+_this.prefixInteger(date.getMonth()+1)+'-'+date.getDate()+' '+item.end_time)-new Date(date.getFullYear()+'-'+_this.prefixInteger(date.getMonth()+1)+'-'+date.getDate()+' '+item.start_time)) / 1000 / 60,
-									hour: parseInt((parseInt(new Date(date.getFullYear()+'-'+_this.prefixInteger(date.getMonth()+1)+'-'+date.getDate()+' '+item.end_time)-new Date(date.getFullYear()+'-'+_this.prefixInteger(date.getMonth()+1)+'-'+date.getDate()+' '+item.start_time)) / 1000 / 60) / 60)
+									minute: parseInt(new Date(year+'/'+_this.prefixInteger(month)+'/'+date.getDate()+' '+item.end_time)-new Date(year+'/'+_this.prefixInteger(month)+'/'+date.getDate()+' '+item.start_time)) / 1000 / 60,
+									hour: parseInt((parseInt(new Date(year+'/'+_this.prefixInteger(month)+'/'+date.getDate()+' '+item.end_time)-new Date(year+'/'+_this.prefixInteger(month)+'/'+date.getDate()+' '+item.start_time)) / 1000 / 60) / 60)
 								})
 							}
 						})
@@ -98,7 +98,7 @@
 							}
 						})
 						// 剩余时间
-						_this.remainTime = (parseInt((new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+pastTime[0]+':00'))-(new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+pastTime[0]+':00'))-(new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟' : ((parseInt((new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+pastTime[0]+':00'))-(new Date(year+'-'+_this.prefixInteger(month)+'-'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时'
+						_this.remainTime = (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟' : ((parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时'
 
 					}).catch(error => {
 						Indicator.close()	
@@ -160,7 +160,7 @@
 				color: #fff;
 			}
 			.time-list{
-				height: 300px;
+				height: 360px;
 				margin: 10px 20px 0 20px;
 				position: relative;
 				color: #fff;
@@ -180,7 +180,7 @@
 					background: linear-gradient(to bottom, rgba(54, 148, 251,0) , rgba(54, 148, 251,0.9));
 				}
 				.mint-loadmore{
-					height: 300px;
+					height: 360px;
 					overflow-y: scroll;
 					-webkit-overflow-scrolling: touch;
 					ul{
@@ -239,7 +239,7 @@
 			}
 			.position{
 				position: absolute;
-				bottom: 104px;
+				bottom: 50px;
 				width: 100%;
 				z-index: 10;
 				button{

@@ -9,11 +9,17 @@
 			<p class="username">{{username}}</p>
 			<p class="id">ID：{{user_id}}</p>
 			<ul>
-				<li>
+				<router-link to="/news" tag="li">
 					<i class="icon-message"></i>
 					<div>
 						<span class="title fl">消息</span>
 						<span class="fr icon-nav"></span>
+					</div>
+				</router-link>
+				<li @click="loginOut">
+					<i class="icon-loginOut"></i>
+					<div>
+						<span class="title fl">退出登录</span>
 					</div>
 				</li>
 			</ul>
@@ -24,9 +30,16 @@
 
 <script>
 	import TabBar from '@/components/tab-bar/tab-bar'
+	import { MessageBox } from 'mint-ui'
+	import { mapActions } from 'vuex'
 	export default {
 		components: {
 			TabBar
+		},
+		computed: {
+			...mapActions({
+				UserLogout: "UserLogout"
+			})
 		},
 		data(){
 			return {
@@ -36,6 +49,12 @@
 			}
 		},
 		methods: {
+			loginOut(){  //loginOut
+				let _this = this
+				MessageBox.confirm('确定退出吗?').then(action => {
+					_this.$store.dispatch('UserLogout','退出成功')					
+				});
+			},
 			getUserInfo(){
 				let _this = this
 				_this.$fetch('/api/user/info/')
@@ -110,6 +129,14 @@
 					width: 33px;
 					height: 33px;
 					background: url('../../assets/images/icon-message.png') no-repeat;
+					background-size: 100% 100%;
+					display: block;
+					float: left;
+				}
+				.icon-loginOut{
+					width: 31px;
+					height: 33px;
+					background: url('../../assets/images/icon-loginOut.png') no-repeat;
 					background-size: 100% 100%;
 					display: block;
 					float: left;
