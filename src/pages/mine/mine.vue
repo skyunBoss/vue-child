@@ -3,10 +3,10 @@
 		<div class="personal">
 			<router-link to="/userValidation" tag="i" class="icon-setting"></router-link>
 			<router-link to="/userValidation" tag="div" class="head">	
-				<img src="../../assets/images/tx.png">
+				<img :src="avatar_url">
 			</router-link>	
-			<p class="username">刘冉冉</p>
-			<p class="id">ID：732847</p>
+			<p class="username">{{nick_name}}</p>
+			<p class="id">ID：{{id}}</p>
 			<ul>
 				<li>
 					<i class="icon-message"></i>
@@ -26,6 +26,25 @@
 	export default {
 		components: {
 			TabBar
+		},
+		data(){
+			return {
+				avatar_url: require("@/assets/images/tx.png"),
+				nick_name: '',
+				id: this.$store.state.login.user_id
+			}
+		},
+		methods: {
+			getUserInfo(){
+				let _this = this
+				_this.$fetch('/api/user/info/').then(res => {
+					_this.avatar_url = res.avatar_url;
+					_this.nick_name = res.nick_name;
+				})
+			},
+		},
+		mounted(){
+			this.getUserInfo()
 		}
 	}
 </script>

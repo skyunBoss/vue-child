@@ -4,22 +4,50 @@
 		<div class="content">
 			<div>
 				<i class="icon-username"></i>
-				<input type="text" placeholder="请输入用户名">
+				<input type="text" placeholder="请输入用户名" v-model="user.username">
 			</div>
 			<div>
 				<i class="icon-newpass"></i>
-				<input type="text" placeholder="请输入密码">
+				<input type="password" placeholder="请输入密码" v-model="user.password">
 			</div>
-			<button type="button">登录</button>
+			<button type="button" @click="login">登录</button>
 		</div>		
 	</div>
 </template>		
 
 <script>
 	import HeaderBar from '@/components/header-bar/header-bar'
+	import { mapActions } from 'vuex'
+	import { Toast } from 'mint-ui'
 	export default {
 		components: {
 			HeaderBar
+		},
+		data(){
+			return {
+				user: {
+					username: '',
+					password: ''
+				}
+			}
+		},
+		computed: {
+	      ...mapActions({
+	        UserLogin: 'UserLogin',
+	      })
+	    },
+		methods: {
+			login(){							
+				if(this.user.username && this.user.password){
+					this.$store.dispatch('UserLogin', this.user)
+				}else{
+					Toast({
+						message: '请输入用户名和密码',
+						position: 'bottom',
+						className: 'toast'
+					})
+				}
+			}
 		}
 	}	
 </script>	
@@ -69,7 +97,7 @@
 				border: 1px solid #d6d6d6;
 				padding: 0 80px;
 				font-size: 30px;
-				color: #d6d6d6;
+				color: #333;
 			}
 		}
 		button{

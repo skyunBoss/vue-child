@@ -26,6 +26,9 @@ a {
     text-decoraction: none;
     background: none;
 }
+input{
+	 -webkit-appearance: none;
+}
 input::-webkit-input-placeholder{
 	color: #d6d6d6;
 	font-size: 30px;
