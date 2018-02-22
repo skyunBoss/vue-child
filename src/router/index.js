@@ -8,6 +8,7 @@ Vue.use(Router)
 const Home = () => import('@/pages/home/home')
 const Login = () => import('@/pages/login/login')
 const TimeShop = () => import('@/pages/home/timeshop')
+const ChangePeriod = () => import('@/pages/home/changePeriod')
 const Setting = () => import('@/pages/setting/setting')
 const Mine = () => import('@/pages/mine/mine')
 const UserValidation = () => import('@/pages/mine/userValidation')
@@ -37,6 +38,10 @@ const router = new Router({
   	  path: '/timeshop',
   	  component: TimeShop
   	},
+    { // 兑换休闲时间段
+      path: '/changePeriod',
+      component: ChangePeriod
+    },
     // 设置页面
     {
       path: '/setting',

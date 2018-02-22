@@ -1,17 +1,18 @@
 <template>
-	<div>
+	<div class="userValidation">
 		<header-bar title="设置" :showback="true" @back="back"></header-bar>	
 		<ul>
 			<li>
 				<span class="title fl">消息</span>
-				<span class="fr name">刘冉冉</span>
+				<span class="fr name">{{username}}</span>
 			</li>
 			<li>
 				<input type="file" name="photo" id="photo" @change="onfilechange">
 				<span class="title fl">头像</span>
-				<span class="fr">
-					<img :src="imgUrl">
-				</span>
+				<!-- <span class="fr"> -->
+				<span class="fr img" :style="{'background': 'url('+imgUrl+') 0% 0% / cover no-repeat'}"></span>
+					<!-- <img :src="imgUrl"> -->
+				<!-- </span> -->
 			</li>
 			<router-link to="/setpassword" tag="li">
 				<span class="title fl">修改密码</span>
@@ -23,13 +24,15 @@
 
 <script>
 	import HeaderBar from '@/components/header-bar/header-bar'
+	import { Toast } from 'mint-ui'
 	export default {
 		components: {
 			HeaderBar
 		},
 		data(){
 			return {
-				imgUrl: require("@/assets/images/tx.png")
+				imgUrl: require("@/assets/images/tx.png"),
+				username: this.$store.state.login.username
 			}
 		},
 		methods: {
@@ -41,19 +44,44 @@
 		    onfilechange(e){
 		    	let _this = this
 				let files = e.target.files || e.dataTransfer.files
+				let formdata = new FormData()
 				if (!files.length) return
 
 				let reader = new FileReader()
 				reader.onload = (e) =>{
 					_this.imgUrl = e.target.result				
 				}
-				reader.readAsDataURL(files[0])
-		    }
+				// reader.readAsDataURL(files[0])
+				formdata.append('avatar_url',files[0])
+				_this.$post('/api/user/info/',formdata)
+					.then(res => {
+						_this.imgUrl = _this.publicUrl+res.avatar_url;
+					})
+					.catch(error => {
+						Toast({
+							message: '更换头像失败',
+							duration: '1000'
+						})
+					})
+		    },
+		    getUserInfo(){
+				let _this = this
+				_this.$fetch('/api/user/info/')
+					.then(res => {
+						_this.imgUrl = _this.publicUrl+res.avatar_url;
+					})
+			}
+		},
+		mounted(){
+			this.getUserInfo()
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.userValidation{
+		padding: 82px 0 0 0;
+	}
 	.mint-header{
 		background: #76a9fd;
 	}
@@ -81,13 +109,17 @@
 			span{
 				color: #4a4a4a;
 				font-size: 30px;
-				img{
-					width: 78px;
-					height: 78px;
-					display: inline-block;
-					vertical-align: middle;
-					border-radius: 50%;				
-				}
+			}
+			span.img{
+				width: 78px;
+				height: 78px;
+				display: inline-block;
+				vertical-align: middle;
+				border-radius: 50%;	
+				position: absolute;			
+				top: 50%;
+				right: 15px;
+				margin-top: -39px;
 			}
 			span.name{
 				width: 30%;

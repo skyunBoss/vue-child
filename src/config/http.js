@@ -1,40 +1,48 @@
 import axios from 'axios'
-import Qs from 'qs'
+import router from '../router'
+import store from '../store'
+import { Toast } from 'mint-ui'
 
-axios.defaults.timeout = 5000;
-axios.defaults.baseURL = '';
+axios.defaults.timeout = 5000
+axios.defaults.baseURL = ''
 
 
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
     const userParse = JSON.parse(localStorage.getItem('user'))
-    config.data = Qs.stringify(config.data);
-    config.headers = {
-      'Content-Type':'application/x-www-form-urlencoded',
-      'Authorization': 'token '+userParse.token
+    config.data = config.data
+    if(userParse){
+      config.headers = {
+        'Content-Type':'application/json',
+        'Authorization': 'token '+userParse.token
+      }
+    }else{
+      config.headers = {
+        'Content-Type':'application/x-www-form-urlencoded'
+      }
     }
     return config;
   },
   error => {
-    return Promise.reject(err);
+    return Promise.reject(err)
   }
-);
+)
 
 
-//http response 拦截器
+//http response 拦截器 错误处理
 axios.interceptors.response.use(
-  response => {
-    if(response.data.errCode ==2){
-      router.push({
-        path:"/login",
-        querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
-      })
-    }
+  response => {  
     return response;
   },
   error => {
-    return Promise.reject(error)
+    // console.log(error.response.data)
+    if(!error.response || error.response.data.detail.indexOf('认证令牌') >= 0){  //在其他设备登录
+      localStorage.removeItem('user')
+      location.reload();
+    }else{
+      return Promise.reject(error)
+    }
   }
 )
 

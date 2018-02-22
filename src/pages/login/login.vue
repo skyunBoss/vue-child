@@ -19,6 +19,7 @@
 	import HeaderBar from '@/components/header-bar/header-bar'
 	import { mapActions } from 'vuex'
 	import { Toast } from 'mint-ui'
+	import Qs from 'qs'
 	export default {
 		components: {
 			HeaderBar
@@ -39,7 +40,7 @@
 		methods: {
 			login(){							
 				if(this.user.username && this.user.password){
-					this.$store.dispatch('UserLogin', this.user)
+					this.$store.dispatch('UserLogin', Qs.stringify(this.user))
 				}else{
 					Toast({
 						message: '请输入用户名和密码',
@@ -53,6 +54,9 @@
 </script>	
 
 <style lang="scss" scoped>
+	.login{
+		padding: 82px 0 0 0;
+	}
 	.mint-header{
 		background-color: #76a9fd;
 	}
@@ -94,7 +98,7 @@
 				height: 66px;
 				border-radius: 30px;
 				background: none;
-				border: 1px solid #d6d6d6;
+				border: 2px solid #d6d6d6;
 				padding: 0 80px;
 				font-size: 30px;
 				color: #333;

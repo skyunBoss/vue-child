@@ -1,9 +1,11 @@
 <!-- 顶部栏 组件 -->
 <template>
-	<div :class="popShow ? 'pop-window animated fadeIn displayShow' : 'pop-window animated fadeOut displayNone'">
+	<div class="pop-window animated fadeIn displayShow">
 		<div class="pop-main">
 			<div class="title">
-				<i class="icon icon-tourism"></i>
+				<i class="icon icon-tourism" v-if="type==1"></i>
+				<i class="icon icon-food" v-if="type==3"></i>
+				<i class="icon icon-money" v-if="type==2"></i>
 				{{title}}
 			</div>
 			<p>{{context}}</p>
@@ -20,7 +22,7 @@
 	export default {
 		data(){
 			return {
-				popShow: this.show
+
 			}
 		},
 		props: {
@@ -28,27 +30,25 @@
 				type: String,
 				default: ''
 			},
-			show: {
-				type: Boolean,
-				default: false
-			},
 			context: {
 				type: String,
+				default: ''
+			},
+			type: {
+				type: Number,
 				default: ''
 			}
 		},
 		methods: {
 			cancel(){
-				this.popShow = false
+				this.$emit('cancel')
 			},
 			confirm(){
 				this.$emit('confirm')
 			}
 		},
 		watch: {
-			show(e){
-				this.popShow = e
-			}
+
 		},
 		mounted(){
 			
@@ -104,6 +104,10 @@
 					background: url('../../assets/images/icon-food.png') no-repeat;			
 					background-size: 100% 100%;
 				}
+				.icon-money{
+					background: url('../../assets/images/icon-money.png') no-repeat;			
+					background-size: 100% 100%;				
+				}
 			}
 			p{
 				color: #898989;
@@ -120,7 +124,7 @@
 					width: 164px;
 					height: 70px;
 					line-height: 70px;
-					border: 1px solid #76a9fd;
+					border: 2px solid #76a9fd;
 					border-radius: 5px;
 					background: none;
 					color: #3679e6;
@@ -131,7 +135,7 @@
 					width: 164px;
 					height: 70px;
 					line-height: 70px;
-					border: 1px solid #76a9fd;
+					border: 2px solid #76a9fd;
 					border-radius: 5px;
 					background: #76a9fd;
 					color: #fff;

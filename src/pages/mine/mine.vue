@@ -2,11 +2,12 @@
 	<div>
 		<div class="personal">
 			<router-link to="/userValidation" tag="i" class="icon-setting"></router-link>
-			<router-link to="/userValidation" tag="div" class="head">	
-				<img :src="avatar_url">
+			<router-link to="/userValidation" tag="div" class="head">
+				<div :style="{'background': 'url('+avatar_url+') 0% 0% / cover no-repeat','width': '100%','height': '100%'}"></div>
+				<!-- <img :src="avatar_url"> -->
 			</router-link>	
-			<p class="username">{{nick_name}}</p>
-			<p class="id">ID：{{id}}</p>
+			<p class="username">{{username}}</p>
+			<p class="id">ID：{{user_id}}</p>
 			<ul>
 				<li>
 					<i class="icon-message"></i>
@@ -30,18 +31,18 @@
 		data(){
 			return {
 				avatar_url: require("@/assets/images/tx.png"),
-				nick_name: '',
-				id: this.$store.state.login.user_id
+				username: this.$store.state.login.username,
+				user_id: this.$store.state.login.user_id
 			}
 		},
 		methods: {
 			getUserInfo(){
 				let _this = this
-				_this.$fetch('/api/user/info/').then(res => {
-					_this.avatar_url = res.avatar_url;
-					_this.nick_name = res.nick_name;
-				})
-			},
+				_this.$fetch('/api/user/info/')
+					.then(res => {
+						_this.avatar_url = _this.publicUrl+res.avatar_url;
+					})
+			}
 		},
 		mounted(){
 			this.getUserInfo()
@@ -50,6 +51,12 @@
 </script>
 
 <style lang="scss" scoped>
+	.personal{
+		padding: 82px 0 0 0;
+		width: 100%;
+		height: 90%;
+		position: fixed;
+	}
 	.personal{
 		width: 100%;
 		background-color: #76a9fd;
@@ -64,13 +71,17 @@
 			right: 40px;
 		}
 		.head{
+			width: 120px;
+			height: 120px;			
 			text-align: center;
-			margin: 35px 0 0 0;
+			margin: 35px auto 0 auto;
+			border-radius: 50%;
+			border: 6px solid #9fc3fe;			
+			overflow: hidden;
 			img{
-				width: 120px;
-				height: 120px;
-				border-radius: 50%;
-				border: 6px solid #9fc3fe;
+				display: inline-block;
+				height: auto;
+				max-width: 100%;
 			}
 		}
 		p{

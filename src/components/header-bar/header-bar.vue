@@ -2,7 +2,7 @@
 <template>
 	<mt-header :title="title">
 		<div slot="left">
-			<mt-button icon="back" @click="back" v-show="showback"></mt-button>
+			<mt-button icon="back" @click="back" v-show="showback">{{backTitle}}</mt-button>
 		</div>
 		<div slot="right" v-show="showButton" @click="submit">提交</div>
 	</mt-header>
@@ -17,6 +17,10 @@
 		},
 		props: {
 			title: {
+				type: String,
+				default: ''
+			},
+			backTitle: {
 				type: String,
 				default: ''
 			},
