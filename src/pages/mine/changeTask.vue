@@ -69,7 +69,8 @@
 		height: 87%;
 		top: 170px;
 		position: absolute;	
-		overflow-y: scroll;	
+		overflow:scroll;  
+		-webkit-overflow-scrolling:touch; 
 		.mint-loadmore-content{
 			height: 100%;
 		}

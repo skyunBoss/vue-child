@@ -1,20 +1,21 @@
 <template>
-	<div class="home">
+	<div class="home" @click="refresh">
 		<header-bar title="成长盾" :showback="false"></header-bar>	
 		<div class="content">
-			<img src="../../assets/images/animation.png" alt="">
+			<div class="img" :style="{'margin-top': list.length>0 ? 0 : 80 +'px'}"></div>
+			<!-- <img src="../../assets/images/animation.png" alt=""> -->
 			<div class="ing">
-				<p class="time" v-show="list.length>0 && !isNaN(remainTime)">{{remainTime}}后进入休闲时间段</p>
-				<p class="time" v-show="list.length==0 || isNaN(remainTime)">今日无更多休闲时间段</p>
-				<div class="border"></div>
+				<p class="time" v-show="list.length>0">{{remainTime}}</p>
+				<p class="time" v-show="list.length==0">今日无更多休闲时间段</p>
+				<div class="border" v-show="list.length>0"></div>
 			</div>
-			<p class="time">今日休闲时间段</p>
-			<div class="time-list">
+			<p class="time" v-show="list.length>0">今日休闲时间段</p>
+			<div class="time-list" v-show="list.length>0">
 				<p class="shadow top"></p>
 				<mt-loadmore :top-method="loadTop" ref="loadmore" style="-webkit-overflow-scrolling: auto">
 					<ul>
 						<li v-for="(val,index) in list">
-							<i :class="['fl',{'past-time': val.start_time<hourMin,'after-time': val.start_time>hourMin}]"></i>
+							<i :class="['fl',{'past-time': val.start_time<hourMin,'after-time': val.start_time>hourMin,'now-time': hourMin>val.start_time && hourMin<val.end_time}]"></i>
 							<em v-show="index < (list.length-1)"></em>
 							<span class="fl slot">{{val.start_time}} — {{val.end_time}}</span>
 							<span class="fr" v-show="val.minute<60">共{{val.minute}}分钟</span>
@@ -64,7 +65,7 @@
 				year = newDate.getFullYear(),
 	    		month = newDate.getMonth()+1,
 	    		date = newDate.getDate()
-				this.hourMin = this.prefixInteger(newDate.getHours())+':'+newDate.getMinutes()
+				this.hourMin = this.prefixInteger(newDate.getHours())+':'+this.prefixInteger(newDate.getMinutes())
 				this.day = newDate.getDay() == 0 ? 7 : newDate.getDay()
 			},
 			getList(){
@@ -93,19 +94,30 @@
 							return a.start_time > b.start_time ? 1 : -1
 						})
 						_this.list.map(item => {
-							if(item.start_time > _this.hourMin){
-								pastTime.push(item.start_time)
+							if(item.start_time > _this.hourMin || item.end_time > _this.hourMin){
+								pastTime.push({
+									start_time: item.start_time,
+									end_time: item.end_time
+								})
 							}
 						})
-						// 剩余时间
-						_this.remainTime = (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟' : ((parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0]+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时'
 
+						if(_this.hourMin > pastTime[0].start_time && _this.hourMin < pastTime[0].end_time){ //剩余时间
+							_this.remainTime = '剩余'+parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].end_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60+'分钟'
+						}else{
+							_this.remainTime = (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟后进入休闲时间段' : ((parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时后进入休闲时间段'
+						}
 					}).catch(error => {
 						Indicator.close()	
 					})
 			},
 			prefixInteger(num){
 		    	return (Array(2).join(0) + num).slice(-2)
+		    },
+		    refresh(){
+		    	if(this.list.length == 0){
+		    		this.loadTop()
+		    	}
 		    }
 		},
 		mounted(){
@@ -127,9 +139,12 @@
 			padding: 50px 0 20px 0;
 			overflow: hidden;
 			text-align: center;
-			img{
+			.img{
 				width: 471px;
-				height: 386px;
+				height: 386px;		
+				background: url('../../assets/images/animation.png') no-repeat;		
+				background-size: 100% 100%;
+				margin: 0 auto;
 			}
 			.ing{
 				p{
@@ -137,10 +152,6 @@
 					color: #fff;
 					margin: 25px 0 0 0;
 					text-align: center;
-				}
-				p.time{
-					font-size: 36px;
-					text-shadow: 5px 5px 5px #438cfe;
 				}
 				.border{
 					width: 696px;
@@ -151,7 +162,7 @@
 				}
 			}
 			p.time{
-				font-size: 36px;
+				font-size: 0.5rem;
 				color: #fff;
 				text-shadow: 5px 5px 5px #438cfe;
 			}
@@ -181,8 +192,8 @@
 				}
 				.mint-loadmore{
 					height: 360px;
-					overflow-y: scroll;
-					-webkit-overflow-scrolling: touch;
+					overflow:scroll;  
+					-webkit-overflow-scrolling:touch;  
 					ul{
 						height: 100%;
 						background: none;
@@ -197,7 +208,7 @@
 							i{
 								width: 22px;
 								height: 22px;	
-								margin: 10px 0 0 0;							
+								margin: 10px 0 0 10px;							
 							}
 							i.past-time{
 								background-color: #fff;
@@ -205,7 +216,15 @@
 								border-radius: 50%;
 							}
 							i.now-time{
-								
+								background-color: #fff;
+								border-radius: 50%;
+								transition: all linear 0.1s;
+								-webkit-transition: all linear 0.1s;
+								box-shadow: 0 0 8px 10px white; 
+								animation-name: bling;
+								animation-duration: 1s;
+								animation-iteration-count: infinite;
+								animation-direction: alternate; 
 							}
 							i.after-time{
 								background: none;
@@ -218,7 +237,7 @@
 								border-left: 2px dashed #fff;
 								position: absolute;
 								bottom: -12px;
-								left: 10px;
+								left: 20px;
 							}
 							span{
 								color: #fff;
@@ -257,4 +276,20 @@
 			}
 		}
 	}
+	@keyframes bling {
+		from {
+			box-shadow: 0 0 8px 10px white; 
+		}
+		to {
+			box-shadow: 0 0 8px 7px white; 
+		} 
+	}
+	@-webkit-keyframes bling {
+		from {
+			box-shadow: 0 0 8px 10px white; 
+		}
+		to {
+			box-shadow: 0 0 8px 7px white; 
+		} 
+	}		
 </style>

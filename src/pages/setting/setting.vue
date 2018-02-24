@@ -64,26 +64,24 @@
 				this.houseworkId = id
 			},
 			loadTop(){  //下拉加载
-				this.getList('loadmore')
+				this.getList()
+				this.$refs.loadmore.onTopLoaded()	
 			},
 			popToggle(index,id){  //parent toggle
 				this.popActiveIndex = index
 				this.parentId = id
 			},
-			getList(type){
+			getList(){
 				let _this = this
-				if(!type) Indicator.open()  //loading
+				Indicator.open()  //loading
 				_this.$fetch('/api/housework-list/'+_this.user_id+'/')
 					.then(res => {
-						if(!type){
-							Indicator.close()
-						}
+						Indicator.close()
 						_this.houseworkList = res
 					})
 					.catch(error => {
 						console.log(error)
 					})
-				if(type) this.$refs.loadmore.onTopLoaded()	
 			},
 			submit(){
 				let _this = this
@@ -139,7 +137,7 @@
 							message: '操作失败'
 						})
 					})
-			}
+			}			
 		},
 		mounted(){
 			this.getList()
@@ -149,7 +147,6 @@
 
 <style lang="scss" scoped>
 	.setting{
-		padding: 82px 0 0 0;
 		height: 100%;
 	}
 	.mint-loadmore{

@@ -18,6 +18,9 @@ html,body{
 	height: 100%;
 	width: 100%;
 	font-family: PingFang;
+	& > div > div{
+		padding: 82px 0 0 0;
+	}
 }
 em{
 	font-style: normal;
@@ -130,3 +133,46 @@ input::-webkit-input-placeholder{
 		color: #76a9fd;
 	}
 }
+
+// 竖屏
+.portrait{
+	.mint-header{
+		top: 40px;
+	}
+	& > div{
+		padding: 122px 0 0 0;
+	}
+}
+// @media all and (orientation: portrait) {
+// 	header.mint-header{
+// 		top: 40px;
+// 	}	
+// 	#app{
+// 		& > div{
+// 			padding: 122px 0 0 0;
+// 		}
+// 	}
+// }
+
+// 横屏
+.landscape{
+	.mint-header{
+		top: 0;
+	}
+	& > div{
+		padding: 82px 0 0 0;
+	}
+}
+.mint-msgbox{
+	padding: 0;
+}
+// @media all and (orientation: landscape) {
+// 	header.mint-header{
+// 		top: 0;
+// 	}	
+// 	#app{
+// 		& > div{
+// 			padding: 82px 0 0 0;
+// 		}
+// 	}
+// }

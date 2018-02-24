@@ -84,4 +84,16 @@
 		}
 	}
 
+	.portrait{
+		& > div{
+			padding: 0;
+		}
+		.news-bg{
+			margin: 82px 0 0 0;
+		}
+		.mint-loadmore{
+			top: 250px;
+		}
+	}
+
 </style>	

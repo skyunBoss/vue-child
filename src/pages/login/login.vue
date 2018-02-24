@@ -54,9 +54,6 @@
 </script>	
 
 <style lang="scss" scoped>
-	.login{
-		padding: 82px 0 0 0;
-	}
 	.mint-header{
 		background-color: #76a9fd;
 	}

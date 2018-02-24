@@ -132,7 +132,6 @@
 
 <style lang="scss" scoped>
 	.timeshop{
-		padding: 82px 0 0 0;
 		height: 100%;
 	}
 	.mint-loadmore{

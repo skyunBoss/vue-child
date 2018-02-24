@@ -3,7 +3,7 @@
 		<header-bar title="设置" :showback="true" @back="back"></header-bar>	
 		<ul>
 			<li>
-				<span class="title fl">消息</span>
+				<span class="title fl">用户名</span>
 				<span class="fr name">{{username}}</span>
 			</li>
 			<li>
@@ -80,7 +80,7 @@
 
 <style lang="scss" scoped>
 	.userValidation{
-		padding: 82px 0 0 0;
+		
 	}
 	.mint-header{
 		background: #76a9fd;
