@@ -4,7 +4,7 @@
 		<div slot="left">
 			<mt-button icon="back" @click="back" v-show="showback">{{backTitle}}</mt-button>
 		</div>
-		<div slot="right" v-show="showButton" @click="submit">提交</div>
+		<div slot="right" v-show="showButton" @click="submit" :style="{ opacity: length==0 ? '0.5' : '1' }">提交</div>
 	</mt-header>
 </template>
 
@@ -31,6 +31,10 @@
 			showButton: {
 				type: Boolean,
 				default: false
+			},
+			length: {
+				type: Number,
+				default: 1
 			}
 		},
 		methods: {

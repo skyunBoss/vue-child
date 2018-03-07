@@ -8,11 +8,16 @@ import { USER_SIGNIN,USER_SIGNOUT } from './types'
 export const UserLogin = ({ commit }, data) => {
   axios.post('/api/myauth/api-token-auth/',data)
     .then(res =>{  //success
-      if(res.data){
+      if(res.data && res.data.role == 'CHILD'){
         commit(USER_SIGNIN, res.data)
         window.location = '/'
+      }else if(res.data.role !== 'CHILD'){
+        Toast({
+          message: '孩子端必须登录孩子的账号',
+          position: 'bottom'
+        })
       }else{
-        window.location = '/login'
+        window.location = '/login'        
       }
     })
     .catch(error => {  //error

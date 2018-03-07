@@ -1,6 +1,6 @@
 <template>
 	<div class="setting">
-		<header-bar title="获得更多时间" :showback="false" :showButton="true" @submit="submit"></header-bar>
+		<header-bar title="获得更多时间" :showback="false" :showButton="true" :length="houseworkList.length" @submit="submit"></header-bar>
 		<mt-loadmore :top-method="loadTop" ref="loadmore">
 			<ul class="list">
 				<li :class="{'active' : index == activeIndex}" v-for="(list,index) in houseworkList" @click="toggle(index,list.id)">
@@ -11,6 +11,11 @@
 					</div>
 				</li>
 			</ul>
+			<div class="none" v-show="houseworkList.length == 0">
+				<img src="../../assets/images/none.png">
+				<p class="big">没有任务</p>
+				<p>您的家长还没有为您添加任务哦</p>
+			</div>			
 		</mt-loadmore>
 		<tab-bar></tab-bar>
 
@@ -148,6 +153,23 @@
 <style lang="scss" scoped>
 	.setting{
 		height: 100%;
+	}
+	.none{
+		width: 100%;
+		overflow: hidden;
+		text-align: center;
+		margin: 40px 0 0;
+		img{
+			width: 200px;
+		}
+		p{
+			font-size: 26px;
+			color: #949494;
+			margin: 20px 0 0;
+		}
+		p.big{
+			font-size: 32px;
+		}
 	}
 	.mint-loadmore{
 		height: 100%;

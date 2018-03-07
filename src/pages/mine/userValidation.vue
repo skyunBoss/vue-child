@@ -7,12 +7,9 @@
 				<span class="fr name">{{username}}</span>
 			</li>
 			<li>
-				<input type="file" name="photo" id="photo" @change="onfilechange">
+				<input type="file" name="photo" id="photo" @change="onfilechange" accept="image/*;capture=camera">
 				<span class="title fl">头像</span>
-				<!-- <span class="fr"> -->
 				<span class="fr img" :style="{'background': 'url('+imgUrl+') 0% 0% / cover no-repeat'}"></span>
-					<!-- <img :src="imgUrl"> -->
-				<!-- </span> -->
 			</li>
 			<router-link to="/setpassword" tag="li">
 				<span class="title fl">修改密码</span>
@@ -31,7 +28,7 @@
 		},
 		data(){
 			return {
-				imgUrl: require("@/assets/images/tx.png"),
+				imgUrl: '',
 				username: this.$store.state.login.username
 			}
 		},
@@ -55,7 +52,7 @@
 				formdata.append('avatar_url',files[0])
 				_this.$post('/api/user/info/',formdata)
 					.then(res => {
-						_this.imgUrl = _this.publicUrl+res.avatar_url;
+						_this.imgUrl = res.avatar_url ? _this.publicUrl+res.avatar_url : require("@/assets/images/tx.jpg");
 					})
 					.catch(error => {
 						Toast({
@@ -68,7 +65,7 @@
 				let _this = this
 				_this.$fetch('/api/user/info/')
 					.then(res => {
-						_this.imgUrl = _this.publicUrl+res.avatar_url;
+						_this.imgUrl = res.avatar_url ? _this.publicUrl+res.avatar_url : require("@/assets/images/tx.jpg");
 					})
 			}
 		},

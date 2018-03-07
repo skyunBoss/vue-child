@@ -41,7 +41,7 @@
 		},
 		data(){
 			return {
-				avatar_url: require("@/assets/images/tx.png"),
+				avatar_url: '',
 				username: this.$store.state.login.username,
 				user_id: this.$store.state.login.user_id,
 				portrait: false,
@@ -59,7 +59,7 @@
 				let _this = this
 				_this.$fetch('/api/user/info/')
 					.then(res => {
-						_this.avatar_url = _this.publicUrl+res.avatar_url;
+						_this.avatar_url = res.avatar_url ? _this.publicUrl+res.avatar_url : require("@/assets/images/tx.jpg");
 					})
 			},
 			resize(){

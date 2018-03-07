@@ -36,12 +36,12 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
-    // console.log(error.response.data)
+    console.log(error.response)
     if(!error.response || error.response.data.detail.indexOf('认证令牌') >= 0){  //在其他设备登录
       localStorage.removeItem('user')
       location.reload();
     }else{
-      return Promise.reject(error)
+      return error
     }
   }
 )

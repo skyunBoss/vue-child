@@ -7,6 +7,8 @@ import store from './store/index'
 import Mint from 'mint-ui'
 import animate from 'animate.css'
 import'mint-ui/lib/style.css'
+import './assets/css/fonts.scss'
+import './assets/css/common.scss'
 import 'lib-flexible/flexible.js'
 
 Vue.use(Mint,animate)
