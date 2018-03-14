@@ -19,6 +19,7 @@ const Time = () => import('@/pages/mine/changeTime')
 
 /**auth false 不需要登录可以访问 auth true 必须要登录才可以访问  默认为true**/
 const router = new Router({
+  base: '/child/',
   routes: [
     { // 根路径
       path: '/',
