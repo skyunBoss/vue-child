@@ -49,12 +49,12 @@
 		    		}).then(res => {
 	    				_this.$store.dispatch('UserLogout','密码已修改，请重新登录')
 		    		}).catch(error => {
-		    			if(error.response.data.new_password){
+		    			if(error.new_password){
 		    				Toast({
-								message: _this.errorMessage[error.response.data.new_password[0]],
+								message: _this.errorMessage[error.new_password[0]],
 								duration: '1000'
 							})
-		    			}else{
+		    			}else if(error.old_password){
 		    				Toast({
 								message: '请输入正确的旧密码',
 								duration: '1000'

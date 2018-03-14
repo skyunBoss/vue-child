@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 import store from '../store'
+import { USER_SIGNIN,USER_SIGNOUT } from '../store/types'
 import { Toast } from 'mint-ui'
 
 axios.defaults.timeout = 5000
@@ -25,7 +26,7 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    return Promise.reject(err)
+    return Promise.reject(err.response.data)
   }
 )
 
@@ -36,13 +37,24 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
-    console.log(error.response)
-    if(!error.response || error.response.data.detail.indexOf('认证令牌') >= 0){  //在其他设备登录
-      localStorage.removeItem('user')
-      location.reload();
-    }else{
-      return error
+    Promise.reject(error).catch(result => {
+      console.log(result.response)
+    })
+    if(error.response){  
+      switch(error.response.status){
+        case 401:
+          store.commit(USER_SIGNOUT)
+          router.push({
+            path: '/login'
+          }) 
+          Toast({
+            message: '账号在其他设备登录，请重新登录',
+            duration: '1000'
+          })
+      }
     }
+
+    return Promise.reject(error.response.data)
   }
 )
 

@@ -7,7 +7,7 @@
 				<span class="fr name">{{username}}</span>
 			</li>
 			<li>
-				<input type="file" name="photo" id="photo" @change="onfilechange" accept="image/*;capture=camera">
+				<!-- <input type="file" name="photo" id="photo" @change="onfilechange" accept="image/*"> -->
 				<span class="title fl">头像</span>
 				<span class="fr img" :style="{'background': 'url('+imgUrl+') 0% 0% / cover no-repeat'}"></span>
 			</li>

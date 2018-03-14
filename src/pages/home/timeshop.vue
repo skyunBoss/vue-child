@@ -114,7 +114,7 @@
 						})
 			    	}		    		
 		    	}).catch(error => {
-		    		if(error.response.data.non_field_errors[0]){
+		    		if(error.non_field_errors[0]){
 		    			Toast({
 							message: '余额不足，无法兑换',
 							position: 'middle',

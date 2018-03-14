@@ -69,7 +69,6 @@
 				this.day = newDate.getDay() == 0 ? 7 : newDate.getDay()
 			},
 			getList(){
-				Indicator.open()
 				let _this = this,
 					pastTime = [],
 					date = new Date(),
@@ -77,6 +76,7 @@
 		    		month = date.getMonth()+1,
 		    		day = date.getDate()
 				_this.list = []
+				// Indicator.open()
 				_this.$fetch('/api/device/user-dayconfigs/'+_this.user_id+'/')
 					.then(res => {
 						Indicator.close()	
@@ -105,7 +105,7 @@
 						if(_this.hourMin > pastTime[0].start_time && _this.hourMin < pastTime[0].end_time){ //剩余时间
 							_this.remainTime = '剩余'+parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].end_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60+'分钟'
 						}else{
-							_this.remainTime = (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟后进入休闲时间段' : ((parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时后进入休闲时间段'
+							_this.remainTime = parseInt(parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) < 60 ? (parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) + '分钟后进入休闲时间段' : ((parseInt((new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+pastTime[0].start_time+':00'))-(new Date(year+'/'+_this.prefixInteger(month)+'/'+day+' '+_this.hourMin+':00'))) / 1000 / 60) / 60) + '小时后进入休闲时间段'
 						}
 					}).catch(error => {
 						Indicator.close()	

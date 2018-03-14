@@ -85,6 +85,7 @@
 						_this.houseworkList = res
 					})
 					.catch(error => {
+						Indicator.close()
 						console.log(error)
 					})
 			},
